@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 
 public class UserDbService {
 
-//    private final UserRepository userRepository;
+    private final UserRepository userRepository;
 }
