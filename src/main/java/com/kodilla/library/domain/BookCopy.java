@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "bookCopies")
+@Table(name = "book_copies")
 public class BookCopy {
 
     @Id
@@ -20,11 +20,20 @@ public class BookCopy {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @Column(name = "bookId")
     @NotNull
+    @Column(name = "book_id")
     private Long bookId;
 
-    @Column(name = "bookStatus")
+    @Column(name = "status")
     @NotNull
+    @Enumerated(EnumType.STRING)
     private BookStatus status;
+
+    @ManyToOne(targetEntity = Book.class)
+    @JoinColumn(name = "id", insertable=false, updatable=false)
+    private Book book;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "checkOut_id")
+    private CheckOut checkOut;
 }

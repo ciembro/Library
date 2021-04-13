@@ -6,13 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
-@Table(name = "checkOuts")
+@Table(name = "check_outs")
 public class CheckOut {
 
     @Id
@@ -21,19 +22,27 @@ public class CheckOut {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "bookCopyId")
+    @Column(name = "bookCopy_id")
     @NotNull
     private Long bookCopyId;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     @NotNull
     private Long userId;
 
-    @Column(name = "borrowDate")
+    @Column(name = "borrow_date")
     @NotNull
-    private LocalDate borrowDate;
+    private Date borrowDate;
 
-    @Column(name = "dueDate")
+    @Column(name = "due_date")
     @NotNull
-    private LocalDate dueDate;
+    private Date dueDate;
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private User user;
+
+    @OneToOne(mappedBy = "checkOut",
+        fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private BookCopy bookCopy;
 }
