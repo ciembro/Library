@@ -10,12 +10,15 @@ import com.kodilla.library.service.BookDbService;
 import com.kodilla.library.service.CheckOutDbService;
 import com.kodilla.library.service.UserDbService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @RestController
 @RequestMapping("/v1/library")
@@ -49,22 +52,45 @@ public class LibraryController {
             return bookMapper.mapToBookDtoList(books);
         }
 
-
     @PostMapping(value = "addBookCopy", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addBookCopy(@RequestBody BookCopyDto bookCopyDto){
+    public void addBookCopy(@RequestBody BookCopyDto bookCopyDto) throws BookNotFoundException {
+        Long bookId = bookCopyDto.getBookDto().getId();
+        Optional<Book> optionalBook = bookDbService.getBook(bookId);
         BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
-        bookCopyDbService.saveBookCopy(bookCopy);
+        if (optionalBook.isPresent()){
+            bookCopy.setBook(optionalBook.get());
+            bookCopyDbService.saveBookCopy(bookCopy);
+        } else {
+            throw new BookNotFoundException();
+        }
+    }
+
+    @GetMapping(value = "getBookCopies")
+    public List<ListBookCopyDto> getBookCopies(@RequestParam Long bookId) throws BookNotFoundException{
+        return bookCopyDbService.getBookCopiesByBookId(bookId);
     }
 
     @PutMapping("changeStatus")
-    public void changeBookStatus(@RequestParam BookStatus bookStatus){
-
+    public void changeBookStatus(@RequestBody BookCopyDto bookCopyDto) throws BookNotFoundException{
+//        Long bookId = bookCopyDto.getBookDto().getId();
+//        Optional<Book> optionalBook = bookDbService.getBook(bookId);
+//        BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
+//        if (optionalBook.isPresent()){
+//            bookCopy.setBook(optionalBook.get());
+//            bookCopyDbService.saveBookCopy(bookCopy);
+//        } else {
+//            throw new BookNotFoundException();
+//        }
     }
 
     @GetMapping("getAvailableCopies")
-    public int getNumOfAvailableCopies(@RequestParam Long bookId){
-
-        return 0;
+    public int getNumOfAvailableCopies(@RequestParam Long bookId) throws BookNotFoundException{
+        Optional<Book> optBook = bookDbService.getBook(bookId);
+        if (optBook.isPresent()){
+            return bookCopyDbService.getNumberOfCopies(bookId);
+        } else {
+            throw new BookNotFoundException();
+        }
     }
 
     @PostMapping(value = "checkOut", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -76,6 +102,4 @@ public class LibraryController {
     public void returnBook(@RequestParam Long checkOutId){
 
     }
-
-
 }

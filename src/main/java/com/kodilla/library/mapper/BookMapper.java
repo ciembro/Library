@@ -14,16 +14,14 @@ public class BookMapper {
         return new BookDto(book.getId(),
                 book.getAuthor(),
                 book.getTitle(),
-                book.getReleaseDate(),
-                book.getBookCopies());
+                book.getReleaseDate());
     }
 
     public Book mapToBook(final BookDto bookDto){
         return new Book(bookDto.getId(),
                 bookDto.getAuthor(),
                 bookDto.getTitle(),
-                bookDto.getReleaseDate(),
-                bookDto.getBookCopies());
+                bookDto.getReleaseDate());
     }
 
     public List<BookDto> mapToBookDtoList(final List<Book> books){
@@ -31,4 +29,5 @@ public class BookMapper {
                 .map(this::mapToBookDto)
                 .collect(Collectors.toList());
     }
+
 }

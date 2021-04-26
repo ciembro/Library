@@ -1,15 +1,32 @@
 package com.kodilla.library.domain;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NamedNativeQuery(
+        name = "BookCopy.getCopiesByBookId",
+        query = "select id, status from book_copies where book_id = :id",
+        resultSetMapping = "listBookCopyDtoMapping"
+)
+
+@SqlResultSetMapping(
+        name = "listBookCopyDtoMapping",
+        classes = @ConstructorResult(
+                columns = {
+                        @ColumnResult(name = "id", type = Long.class),
+                        @ColumnResult(name = "status", type = String.class)
+                },
+                targetClass = ListBookCopyDto.class
+        )
+)
+
+@NamedNativeQuery(
+        name = "BookCopy.getNumberOfCopies",
+        query = "select count(*) from book_copies where (book_id = :id && status LIKE 'AVAILABLE')"
+)
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Entity
 @Table(name = "book_copies")
 public class BookCopy {
@@ -20,20 +37,31 @@ public class BookCopy {
     @Column(name = "id", unique = true)
     private Long id;
 
-    @NotNull
-    @Column(name = "book_id")
-    private Long bookId;
-
     @Column(name = "status")
     @NotNull
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    @ManyToOne(targetEntity = Book.class)
-    @JoinColumn(name = "id", insertable=false, updatable=false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "checkOut_id")
     private CheckOut checkOut;
+
+    public BookCopy(BookStatus status) {
+        this.status = status;
+    }
+
+    public BookCopy(BookStatus status, Book book, CheckOut checkOut) {
+        this.status = status;
+        this.book = book;
+        this.checkOut = checkOut;
+    }
+
+    public BookCopy(Long id, BookStatus status, Book book) {
+        this.id = id;
+        this.status = status;
+        this.book = book;
+    }
 }

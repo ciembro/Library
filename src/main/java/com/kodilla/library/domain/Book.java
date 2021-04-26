@@ -2,7 +2,6 @@ package com.kodilla.library.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
@@ -39,6 +38,20 @@ public class Book {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<BookCopy> bookCopies;
+    private List<BookCopy> bookCopies = new ArrayList<>();
+
+    public Book(String author, String title, int releaseDate) {
+        this.author = author;
+        this.title = title;
+        this.releaseDate = releaseDate;
+    }
+
+    public Book(Long id, String author, String title, int releaseDate) {
+        this.id = id;
+        this.author = author;
+        this.title = title;
+        this.releaseDate = releaseDate;
+    }
+
 
 }

@@ -3,11 +3,12 @@ package com.kodilla.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,27 +23,19 @@ public class CheckOut {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "bookCopy_id")
-    @NotNull
-    private Long bookCopyId;
-
-    @Column(name = "user_id")
-    @NotNull
-    private Long userId;
-
-    @Column(name = "borrow_date")
-    @NotNull
-    private Date borrowDate;
-
-    @Column(name = "due_date")
-    @NotNull
-    private Date dueDate;
+    @OneToOne(targetEntity = BookCopy.class)
+    @JoinColumn(name = "book_copy_id", insertable = false, updatable = false)
+    private BookCopy bookCopy;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
-    @OneToOne(mappedBy = "checkOut",
-        fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private BookCopy bookCopy;
+    @Column(name = "borrow_date")
+    @CreationTimestamp
+    private LocalDate borrowDate;
+
+    @Column(name = "due_date")
+    private LocalDate dueDate = LocalDate.now().plusMonths(1);
+
 }

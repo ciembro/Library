@@ -19,7 +19,7 @@ public class UserMapper {
         return  new User(userDto.getId(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getJoinedDate(),
+                userDto.getJoiningDate(),
                 userDto.getCheckOuts());
     }
 }

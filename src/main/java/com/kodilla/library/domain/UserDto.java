@@ -2,17 +2,20 @@ package com.kodilla.library.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class UserDto {
 
     private Long id;
     private String firstName;
     private String lastName;
-    private Date joinedDate;
+    private LocalDate joiningDate;
     private List<CheckOut> checkOuts;
+
 }
