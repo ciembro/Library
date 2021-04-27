@@ -1,6 +1,6 @@
 package com.kodilla.library.mapper;
 
-import com.kodilla.library.domain.BookNotFoundException;
+import com.kodilla.library.controller.advice.BookNotFoundException;
 import com.kodilla.library.domain.CheckOut;
 import com.kodilla.library.domain.CheckOutDto;
 import lombok.RequiredArgsConstructor;

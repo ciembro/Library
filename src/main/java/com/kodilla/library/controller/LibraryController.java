@@ -1,5 +1,6 @@
 package com.kodilla.library.controller;
 
+import com.kodilla.library.controller.advice.BookNotFoundException;
 import com.kodilla.library.domain.*;
 import com.kodilla.library.mapper.BookCopyMapper;
 import com.kodilla.library.mapper.BookMapper;
@@ -13,12 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
 
 @RestController
 @RequestMapping("/v1/library")
@@ -61,7 +58,7 @@ public class LibraryController {
             bookCopy.setBook(optionalBook.get());
             bookCopyDbService.saveBookCopy(bookCopy);
         } else {
-            throw new BookNotFoundException();
+            throw new BookNotFoundException(BookNotFoundException.BOOK_ID_NOT_FOUND);
         }
     }
 
@@ -72,15 +69,15 @@ public class LibraryController {
 
     @PutMapping("changeStatus")
     public void changeBookStatus(@RequestBody BookCopyDto bookCopyDto) throws BookNotFoundException{
-//        Long bookId = bookCopyDto.getBookDto().getId();
-//        Optional<Book> optionalBook = bookDbService.getBook(bookId);
-//        BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
-//        if (optionalBook.isPresent()){
-//            bookCopy.setBook(optionalBook.get());
-//            bookCopyDbService.saveBookCopy(bookCopy);
-//        } else {
-//            throw new BookNotFoundException();
-//        }
+        Long bookId = bookCopyDto.getBookDto().getId();
+        Optional<Book> optionalBook = bookDbService.getBook(bookId);
+        BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
+        if (optionalBook.isPresent()){
+            bookCopy.setBook(optionalBook.get());
+            bookCopyDbService.saveBookCopy(bookCopy);
+        } else {
+            throw new BookNotFoundException(BookNotFoundException.BOOK_ID_NOT_FOUND);
+        }
     }
 
     @GetMapping("getAvailableCopies")
@@ -89,7 +86,7 @@ public class LibraryController {
         if (optBook.isPresent()){
             return bookCopyDbService.getNumberOfCopies(bookId);
         } else {
-            throw new BookNotFoundException();
+            throw new BookNotFoundException(BookNotFoundException.BOOK_ID_NOT_FOUND);
         }
     }
 
