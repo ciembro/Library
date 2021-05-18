@@ -1,0 +1,16 @@
+ [
+    {
+        "status": "AVAILABLE",
+        "bookId" : 1
+    },
+
+    {
+        "status": "BORROWED",
+        "bookId" : 1
+    },
+
+    {
+        "status": "AVAILABLE",
+        "bookId" : 2
+    }
+]

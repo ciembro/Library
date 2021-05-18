@@ -1,6 +1,7 @@
 package com.kodilla.library.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,23 +13,22 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Entity
 @Table(name = "check_outs")
 public class CheckOut {
 
     @Id
-    @NotNull
-    @GeneratedValue
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true)
     private Long id;
 
     @OneToOne(targetEntity = BookCopy.class)
-    @JoinColumn(name = "book_copy_id", insertable = false, updatable = false)
+    @JoinColumn(name = "book_copy_id")
     private BookCopy bookCopy;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "borrow_date")

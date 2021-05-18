@@ -11,15 +11,13 @@ public class UserMapper {
         return new UserDto(user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getJoiningDate(),
-                user.getCheckOutList());
+                user.getJoiningDate());
     }
 
     public User mapToUser(UserDto userDto){
         return  new User(userDto.getId(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getJoiningDate(),
-                userDto.getCheckOuts());
+                userDto.getJoiningDate());
     }
 }

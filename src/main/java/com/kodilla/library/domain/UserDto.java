@@ -16,6 +16,5 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private LocalDate joiningDate;
-    private List<CheckOut> checkOuts;
 
 }

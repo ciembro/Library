@@ -1,31 +1,24 @@
 package com.kodilla.library.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-
 import java.time.LocalDate;
-import java.util.Date;
+
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @NotNull
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 
@@ -49,5 +42,10 @@ public class User {
     )
     private List<CheckOut> checkOutList;
 
-
+    public User(Long id, String firstName, String lastName, LocalDate joiningDate) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.joiningDate = joiningDate;
+    }
 }

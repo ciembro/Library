@@ -1,5 +1,6 @@
 package com.kodilla.library.mapper;
 
+import com.kodilla.library.controller.advice.BookNotFoundException;
 import com.kodilla.library.domain.*;
 import com.kodilla.library.service.BookDbService;
 import lombok.RequiredArgsConstructor;
@@ -13,29 +14,34 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookCopyMapper {
 
-    private final BookMapper bookMapper;
+    private final BookDbService bookDbService;
 
     public BookCopyDto mapToBookCopyDto(BookCopy bookCopy){
-
         return new BookCopyDto(bookCopy.getId(),
                 bookCopy.getStatus(),
-                bookMapper.mapToBookDto(bookCopy.getBook()));
+                bookCopy.getBook().getId());
     }
 
-    public BookCopy mapToBookCopy(BookCopyDto bookCopyDto) {
+    public BookCopy mapToBookCopy(BookCopyDto bookCopyDto) throws BookNotFoundException {
+        Book book = bookDbService.findById(bookCopyDto.getBookId());
+
         return new BookCopy(bookCopyDto.getId(),
                 bookCopyDto.getStatus(),
-                bookMapper.mapToBook(bookCopyDto.getBookDto()));
+                book);
+
+
     }
 
-    public ListBookCopyDto mapToListBookCopyDto(BookCopy bookCopy){
-        return new ListBookCopyDto(bookCopy.getId(),
-                bookCopy.getStatus());
+    public BookCopy mapToBookCopy(BookCopyCreationDto bookCopyDto) throws BookNotFoundException {
+        Book book = bookDbService.findById(bookCopyDto.getBookId());
+
+        return new BookCopy(bookCopyDto.getStatus(),
+                book);
     }
 
-    public List<ListBookCopyDto> mapToListBookCopies(List<BookCopy> bookCopies){
+    public List<BookCopyDto> mapToBookCopyDtoList(List<BookCopy> bookCopies){
         return bookCopies.stream()
-                .map(this::mapToListBookCopyDto)
+                .map(this::mapToBookCopyDto)
                 .collect(Collectors.toList());
     }
 

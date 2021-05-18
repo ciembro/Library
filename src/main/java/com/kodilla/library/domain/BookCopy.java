@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 @NamedNativeQuery(
         name = "BookCopy.getCopiesByBookId",
-        query = "select id, status from book_copies where book_id = :id",
+        query = "select id, status, book_id from book_copies where book_id = :id",
         resultSetMapping = "listBookCopyDtoMapping"
 )
 
@@ -14,9 +14,10 @@ import javax.validation.constraints.NotNull;
         classes = @ConstructorResult(
                 columns = {
                         @ColumnResult(name = "id", type = Long.class),
-                        @ColumnResult(name = "status", type = String.class)
+                        @ColumnResult(name = "status", type = String.class),
+                        @ColumnResult(name = "book_id", type = Long.class)
                 },
-                targetClass = ListBookCopyDto.class
+                targetClass = BookCopyDto.class
         )
 )
 
@@ -32,8 +33,7 @@ import javax.validation.constraints.NotNull;
 public class BookCopy {
 
     @Id
-    @GeneratedValue
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 
@@ -49,14 +49,9 @@ public class BookCopy {
     @OneToOne(fetch = FetchType.LAZY)
     private CheckOut checkOut;
 
-    public BookCopy(BookStatus status) {
-        this.status = status;
-    }
-
-    public BookCopy(BookStatus status, Book book, CheckOut checkOut) {
+    public BookCopy(BookStatus status, Book book) {
         this.status = status;
         this.book = book;
-        this.checkOut = checkOut;
     }
 
     public BookCopy(Long id, BookStatus status, Book book) {

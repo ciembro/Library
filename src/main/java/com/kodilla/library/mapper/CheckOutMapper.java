@@ -23,8 +23,8 @@ public class CheckOutMapper {
 
     public CheckOut mapToCheckOut(CheckOutDto checkOutDto) throws BookNotFoundException {
         return  new CheckOut(checkOutDto.getId(),
-                bookCopyMapper.mapToBookCopy(checkOutDto.getBookCopy()),
-                userMapper.mapToUser(checkOutDto.getUser()),
+                bookCopyMapper.mapToBookCopy(checkOutDto.getBookCopyDto()),
+                userMapper.mapToUser(checkOutDto.getUserDto()),
                 checkOutDto.getBorrowDate(),
                 checkOutDto.getDueDate());
     }

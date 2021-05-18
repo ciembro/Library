@@ -1,8 +1,7 @@
 package com.kodilla.library.repository;
 
-import com.kodilla.library.domain.Book;
 import com.kodilla.library.domain.BookCopy;
-import com.kodilla.library.domain.ListBookCopyDto;
+import com.kodilla.library.domain.BookCopyDto;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +22,7 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
     Optional<BookCopy> findById(Long id);
 
     @Query(nativeQuery = true)
-    List<ListBookCopyDto> getCopiesByBookId(@Param("id") Long bookId);
+    List<BookCopyDto> getCopiesByBookId(@Param("id") Long bookId);
 
     @Query(nativeQuery = true)
     int getNumberOfCopies(@Param("id") Long bookId);

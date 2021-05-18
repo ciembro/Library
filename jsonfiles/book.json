@@ -1,0 +1,31 @@
+[
+    {
+        "author": "J.K.Rowling",
+        "title": "Harry Potter i Komnata Tajemnic",
+        "releaseDate": "1998"
+    },
+
+    {
+        "author": "J.K.Rowling",
+        "title": "Harry Potter i Kamień Filozoficzny",
+        "releaseDate": "1997"
+    },
+
+    {
+        "author": "Terry Pratchett",
+        "title": "Kosiarz",
+        "releaseDate": "1997"
+    },
+
+    {
+        "author": "Terry Pratchett",
+        "title": "Blask Fantastyczny",
+        "releaseDate": "1986"
+    },
+
+    {
+        "author": "Terry Pratchett",
+        "title": "Mort",
+        "releaseDate": "1987"
+    }
+]
