@@ -39,12 +39,6 @@ public class Book {
     )
     private List<BookCopy> bookCopies = new ArrayList<>();
 
-    public Book(String author, String title, int releaseDate) {
-        this.author = author;
-        this.title = title;
-        this.releaseDate = releaseDate;
-    }
-
     public Book(Long id, String author, String title, int releaseDate) {
         this.id = id;
         this.author = author;
