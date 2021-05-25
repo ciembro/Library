@@ -17,11 +17,11 @@ public class UserDbService {
 
     private final UserRepository userRepository;
 
-    public User saveUser(User user){
+    public User save(User user){
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserById(Long userId) throws UserNotFoundException {
-        return userRepository.findById(userId);
+    public User findById(Long userId) throws UserNotFoundException {
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 }

@@ -25,7 +25,7 @@ public interface BookCopyRepository extends CrudRepository<BookCopy, Long> {
     List<BookCopyDto> getCopiesByBookId(@Param("id") Long bookId);
 
     @Query(nativeQuery = true)
-    int getNumberOfCopies(@Param("id") Long bookId);
+    int getNumberOfAvailableCopies(@Param("id") Long bookId);
 }
 
 

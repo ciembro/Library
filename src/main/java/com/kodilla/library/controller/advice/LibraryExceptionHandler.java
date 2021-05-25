@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class LibraryExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BookNotFoundException.class)
+    @ExceptionHandler({BookNotFoundException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> handleBookNotFound(){
 
@@ -18,4 +18,34 @@ public class LibraryExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Book with provided ID doesn't exist");
     }
+
+    @ExceptionHandler({BookCopyNotFoundException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleBookCopyNotFound(){
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Book copy with provided ID doesn't exist");
+    }
+
+    @ExceptionHandler(BookNotAvailableException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleBookNotAvailable(){
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Requested book isn't available");
+    }
+
+    @ExceptionHandler(CheckOutNotFoundException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleCheckoutNotFound(){
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Checkout is already closed or doesn't exist in database");
+    }
+
+
+
 }

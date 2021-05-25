@@ -22,8 +22,9 @@ import javax.validation.constraints.NotNull;
 )
 
 @NamedNativeQuery(
-        name = "BookCopy.getNumberOfCopies",
-        query = "select count(*) from book_copies where (book_id = :id && status LIKE 'AVAILABLE')"
+        name = "BookCopy.getNumberOfAvailableCopies",
+        query = "select count(*) from book_copies " +
+                "where (book_id = :id && status LIKE 'AVAILABLE')"
 )
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,8 +43,8 @@ public class BookCopy {
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 
     @OneToOne(fetch = FetchType.LAZY)

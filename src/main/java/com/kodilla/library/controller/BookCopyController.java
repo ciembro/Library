@@ -23,24 +23,24 @@ public class BookCopyController {
     @PostMapping(value = "addBookCopy", consumes = MediaType.APPLICATION_JSON_VALUE)
     public BookCopyDto addBookCopy(@RequestBody BookCopyCreationDto bookCopyDto) throws BookNotFoundException {
         BookCopy bookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
-        bookCopyDbService.saveBookCopy(bookCopy);
+        bookCopyDbService.save(bookCopy);
         return bookCopyMapper.mapToBookCopyDto(bookCopy);
     }
 
     @PutMapping("changeStatus")
     public BookCopyDto changeBookStatus(@RequestBody BookCopyDto bookCopyDto) throws BookNotFoundException {
         BookCopy updatedBookCopy = bookCopyMapper.mapToBookCopy(bookCopyDto);
-        bookCopyDbService.saveBookCopy(updatedBookCopy);
+        bookCopyDbService.save(updatedBookCopy);
         return bookCopyMapper.mapToBookCopyDto(updatedBookCopy);
     }
 
     @GetMapping("getAvailableCopies")
     public int getNumOfAvailableCopies(@RequestParam Long bookId) throws BookNotFoundException{
-        return bookCopyDbService.getNumberOfCopies(bookId);
+        return bookCopyDbService.getNumberOfAvailableCopies(bookId);
     }
 
     @GetMapping(value = "getBookCopies")
-    public List<BookCopyDto> getBookCopies(@RequestParam Long bookId){
+    public List<BookCopyDto> getBookCopies(@RequestParam Long bookId) throws BookNotFoundException {
         return bookCopyDbService.findBookCopiesByBookId(bookId);
     }
 }

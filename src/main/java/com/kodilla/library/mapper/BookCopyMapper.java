@@ -28,8 +28,6 @@ public class BookCopyMapper {
         return new BookCopy(bookCopyDto.getId(),
                 bookCopyDto.getStatus(),
                 book);
-
-
     }
 
     public BookCopy mapToBookCopy(BookCopyCreationDto bookCopyDto) throws BookNotFoundException {

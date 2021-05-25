@@ -1,7 +1,6 @@
 package com.kodilla.library.controller;
 
 import com.kodilla.library.domain.Book;
-import com.kodilla.library.domain.BookCopyDto;
 import com.kodilla.library.domain.BookDto;
 import com.kodilla.library.mapper.BookMapper;
 import com.kodilla.library.service.BookDbService;
@@ -22,7 +21,7 @@ public class BookController {
     @PostMapping(value = "addBook", consumes = MediaType.APPLICATION_JSON_VALUE)
     public BookDto addBook(@RequestBody BookDto bookDto){
         Book book = bookMapper.mapToBook(bookDto);
-        return bookMapper.mapToBookDto(bookDbService.saveBook(book));
+        return bookMapper.mapToBookDto(bookDbService.save(book));
     }
 
     @GetMapping(value = "getAllBooks")

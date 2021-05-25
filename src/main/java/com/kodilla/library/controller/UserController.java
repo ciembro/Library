@@ -4,7 +4,6 @@ import com.kodilla.library.domain.User;
 import com.kodilla.library.domain.UserDto;
 import com.kodilla.library.mapper.UserMapper;
 import com.kodilla.library.service.UserDbService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +22,6 @@ public class UserController {
     @PostMapping(value = "addUser", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addUser(@RequestBody UserDto userDto){
         User user = userMapper.mapToUser(userDto);
-        userDbService.saveUser(user);
+        userDbService.save(user);
     }
 }
